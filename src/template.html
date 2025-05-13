@@ -1,14 +1,31 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>⛅ Weather App</title>
-</head>
-    <body>
-        <header>
-            <div class="logo"></div>
-            <nav></nav>
-        </header>
-    </body>
+  </head>
+  <body>
+    <header>
+      <nav class="navLeft">
+        <div class="locationDetail">
+          <div class="weatherIcon">⛅</div>
+          <div class="locationName">Rampur, India</div>
+          <div class="locationTemp">98 deg</div>
+        </div>
+      </nav>
+      <nav class="navRight">
+        <input
+          type="text"
+          id="searchCity"
+          placeholder="City name"
+          autocomplete="off"
+        />
+        <button class="searchCityButton"><img src="./images/magnify.svg" alt="search"></button>
+      </nav>
+    </header>
+  </body>
 </html>
