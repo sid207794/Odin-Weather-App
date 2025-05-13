@@ -1,0 +1,87 @@
+body {
+  font-family: 'Roboto', serif;
+  height: 100vh;
+  background-image: url('./images/pexels-francesco-ungaro-281260.webp');
+  background-size: cover;
+  background-position: center;
+  padding: 0;
+  margin: 0;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  padding: calc(25 * 100vmin / 730);
+}
+
+.navLeft,
+.navRight {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #16161650;
+  backdrop-filter: blur(5px);
+  padding: calc(6 * 100vmin / 730);
+  padding-left: calc(15 * 100vw / 1536);
+  padding-right: calc(15 * 100vw / 1536);
+  border-radius: calc(20 * 100vmin / 730);
+}
+
+.navRight {
+  gap: calc(5 * 100vw / 1536);
+  padding-right: calc(8 * 100vw / 1536);
+}
+
+.locationDetail {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: calc(10 * 100vw / 1536);
+  color: white;
+  font-weight: bold;
+}
+
+.locationDetail .locationName {
+  border-right: solid calc(2 * 100vw / 1536) aqua;
+  box-sizing: border-box;
+  padding-right: calc(10 * 100vw / 1536);
+}
+
+#searchCity {
+  background-color: transparent;
+  outline: none;
+  border: none;
+  border-bottom: solid calc(1 * 100vh / 730) white;
+  color: white;
+}
+
+#searchCity::placeholder {
+  color: rgb(212, 212, 212, 0.8);
+}
+
+#searchCity:focus {
+  border-color: aqua;
+}
+
+.searchCityButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(25 * 100vh / 730);
+  width: calc(25 * 100vh / 730);
+  background-color: transparent;
+  border: none;
+  border-radius: 100%;
+}
+
+.searchCityButton img {
+  height: calc(25 * 100vh / 730);
+  width: calc(25 * 100vh / 730);
+  filter: invert(100%);
+  cursor: pointer;
+}
+
+.searchCityButton img:hover {
+  filter: invert(70%) sepia(96%) saturate(2500%) hue-rotate(130deg)
+    brightness(101%) contrast(102%);
+}
