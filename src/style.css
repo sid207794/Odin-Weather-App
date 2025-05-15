@@ -4,6 +4,8 @@ body {
   background-image: url('./images/pexels-francesco-ungaro-281260.webp');
   background-size: cover;
   background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
   padding: 0;
   margin: 0;
 }
@@ -12,10 +14,15 @@ header {
   display: flex;
   justify-content: space-between;
   padding: calc(25 * 100vmin / 730);
+  margin-bottom: calc(25 * 100vh / 730);
+  position: relative;
 }
 
 .navLeft,
-.navRight {
+.navRight,
+.locationData,
+.tempBig {
+  flex-shrink: 0;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -25,6 +32,13 @@ header {
   padding-left: calc(15 * 100vw / 1536);
   padding-right: calc(15 * 100vw / 1536);
   border-radius: calc(20 * 100vmin / 730);
+}
+
+.navLeft {
+  min-width: calc(190.15 * 100vw / 1536);
+  flex-direction: column;
+  gap: calc(10 * 100vh / 730);
+  user-select: none;
 }
 
 .navRight {
@@ -39,12 +53,87 @@ header {
   gap: calc(10 * 100vw / 1536);
   color: white;
   font-weight: bold;
+  font-size: calc(16 * 100vmin / 730);
+  cursor: default;
+}
+
+.locationDetail .weatherIcon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(25 * 100vh / 730);
+  width: calc(25 * 100vh / 730);
+}
+
+.locationDetail .weatherIcon img {
+  height: calc(25 * 100vh / 730);
+  width: calc(25 * 100vh / 730);
 }
 
 .locationDetail .locationName {
-  border-right: solid calc(2 * 100vw / 1536) aqua;
+  border-right: solid calc(2 * 100vw / 1536) white;
   box-sizing: border-box;
   padding-right: calc(10 * 100vw / 1536);
+}
+
+.locationData {
+  display: flex;
+  flex-direction: column;
+  gap: calc(10 * 100vw / 1536);
+  position: absolute;
+  top: calc(40 * 100vh / 730);
+  font-size: calc(16 * 100vmin / 730);
+  border-radius: calc(10 * 100vmin / 730);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(100%);
+  transition:
+    opacity 0.3s ease,
+    transform 0.5s ease,
+    visibility 0.5s ease;
+}
+
+.navLeft:hover > .locationData,
+.locationData:hover {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.locationData .coordinates {
+  display: flex;
+  gap: calc(30 * 100vw / 1536);
+}
+
+.latitude,
+.longitude {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: calc(5 * 100vw / 1536);
+}
+
+.latitudeData,
+.longitudeData,
+.currentTime,
+.timeZone {
+  color: rgb(205, 205, 205);
+  font-size: calc(14 * 100vmin / 730);
+}
+
+.locationData .coordinates p.heading,
+.timeText,
+.zoneText {
+  color: white;
+  font-size: calc(14 * 100vmin / 730);
+  font-weight: bold;
+  margin: 0;
+}
+
+.locationData .time,
+.locationData .zone {
+  margin-right: auto;
 }
 
 #searchCity {
@@ -53,6 +142,8 @@ header {
   border: none;
   border-bottom: solid calc(1 * 100vh / 730) white;
   color: white;
+  font-size: calc(16 * 100vmin / 730);
+  width: calc(156.175 * 100vw / 1536);
 }
 
 #searchCity::placeholder {
@@ -84,4 +175,94 @@ header {
 .searchCityButton img:hover {
   filter: invert(70%) sepia(96%) saturate(2500%) hue-rotate(130deg)
     brightness(101%) contrast(102%);
+}
+
+.locationConditions,
+.tempBig {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: calc(10 * 100vh / 730);
+}
+
+.tempBig {
+  border-radius: calc(15 * 100vmin / 730);
+  padding: calc(15 * 100vmin / 730);
+  padding-left: calc(35 * 100vw / 1536);
+  padding-right: calc(35 * 100vw / 1536);
+  height: fit-content;
+}
+
+.realTemp {
+  font-size: calc(70 * 100vmin / 730);
+  font-weight: 600;
+  color: white;
+}
+
+.feelsLike {
+  font-size: calc(16 * 100vmin / 730);
+  color: white;
+}
+
+.moreConditions {
+  display: grid;
+  grid-template: 1fr 1fr / repeat(6, 1fr);
+  gap: calc(10 * 100vh / 730) calc(10 * 100vw / 1536);
+}
+
+.moreConditions .conditionData {
+  padding: calc(15 * 100vmin / 730);
+  padding-left: calc(35 * 100vw / 1536);
+  padding-right: calc(35 * 100vw / 1536);
+  background-color: #16161650;
+  /*background: linear-gradient(135deg, #00800050, #80008050);*/
+  backdrop-filter: blur(5px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: calc(15 * 100vmin / 730);
+  gap: calc(10 * 100vh / 730);
+  color: white;
+  user-select: none;
+}
+
+.conditionData .dataImg {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(55 * 100vh / 730);
+  width: calc(55 * 100vh / 730);
+}
+
+.conditionData .dataImg img {
+  height: calc(45 * 100vh / 730);
+  width: calc(45 * 100vh / 730);
+  filter: invert(100%);
+}
+
+.conditionData:nth-child(1) .dataImg img {
+  filter: invert(0);
+}
+
+.conditionData:nth-child(5) .dataImg {
+  background: #000000af;
+  border: none;
+  border-radius: 100%;
+}
+
+.conditionData:nth-child(5) .dataImg img {
+  height: calc(65 * 100vh / 730);
+  width: calc(65 * 100vh / 730);
+}
+
+.conditionData .imgText {
+  color: rgb(205, 205, 205);
+  font-size: calc(16 * 100vmin / 730);
+}
+
+.conditionData .textData {
+  font-weight: bold;
+  font-size: calc(16 * 100vmin / 730);
 }
