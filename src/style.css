@@ -1,20 +1,25 @@
 body {
   font-family: 'Roboto', serif;
   height: 100vh;
-  background-image: url('./images/pexels-francesco-ungaro-281260.webp');
+  background-image: url('./images/ChatGPT\ Image\ May\ 15\,\ 2025\,\ 08_31_30\ PM.png');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: fixed;
   padding: 0;
   margin: 0;
+  transition: background-image 0.3s ease;
+}
+
+body.background2 {
+  background-image: url('./images/ChatGPT\ Image\ May\ 15\,\ 2025\,\ 08_31_34\ PM.png');
 }
 
 header {
   display: flex;
   justify-content: space-between;
   padding: calc(25 * 100vmin / 730);
-  margin-bottom: calc(25 * 100vh / 730);
+  margin-bottom: calc(16 * 100vh / 730);
   position: relative;
 }
 
@@ -84,9 +89,10 @@ header {
   top: calc(40 * 100vh / 730);
   font-size: calc(16 * 100vmin / 730);
   border-radius: calc(10 * 100vmin / 730);
+  background-color: #16161675;
   opacity: 0;
   visibility: hidden;
-  transform: translateY(100%);
+  transform: translateY(70%);
   transition:
     opacity 0.3s ease,
     transform 0.5s ease,
@@ -177,6 +183,10 @@ header {
     brightness(101%) contrast(102%);
 }
 
+.locationConditions {
+  margin-bottom: calc(25 * 100vh / 730);
+}
+
 .locationConditions,
 .tempBig {
   display: flex;
@@ -192,6 +202,7 @@ header {
   padding-left: calc(35 * 100vw / 1536);
   padding-right: calc(35 * 100vw / 1536);
   height: fit-content;
+  gap: 0;
 }
 
 .realTemp {
@@ -263,6 +274,154 @@ header {
 }
 
 .conditionData .textData {
+  font-weight: bold;
+  font-size: calc(16 * 100vmin / 730);
+}
+
+.sunStatus {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.sunStatusCover {
+  display: flex;
+  flex-direction: column;
+  gap: calc(4 * 100vh / 730);
+  /* background-color: #16161650; */
+  background: linear-gradient(90deg, #ff000050, #0000ff50);
+  backdrop-filter: blur(5px);
+  border-radius: calc(15 * 100vmin / 730);
+  padding: calc(10 * 100vmin / 730);
+  padding-left: calc(25 * 100vw / 1536);
+  padding-right: calc(25 * 100vw / 1536);
+  height: fit-content;
+  max-width: calc(280 * 100vw / 1536);
+}
+
+.riseSet,
+.riseSetTime {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: calc(200 * 100vw / 1536);
+}
+
+.rise,
+.set {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.riseImage,
+.setImage,
+.travel .sun {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(35 * 100vh / 730);
+  width: calc(35 * 100vh / 730);
+}
+
+.riseImage img,
+.setImage img,
+.travel .sun img {
+  height: calc(35 * 100vh / 730);
+  width: calc(35 * 100vh / 730);
+  filter: invert(100%);
+}
+
+.riseText,
+.setText {
+  color: rgb(205, 205, 205);
+  font-size: calc(13 * 100vmin / 730);
+}
+
+.travel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: calc(3 * 100vw / 1536);
+}
+
+.lineLeft,
+.lineRight {
+  flex: 1;
+}
+
+.lineLeft hr,
+.lineRight hr {
+  flex: 1;
+  height: calc(8 * 100vh / 730);
+  width: calc(120 * 100vw / 1536);
+  margin: 0;
+  border-radius: calc(15 * 100vmin / 730);
+  border: solid calc(2 * 100vmin / 730) transparent;
+  box-sizing: border-box;
+}
+
+.lineLeft hr.morning {
+  border-color: aquamarine;
+}
+
+.lineLeft hr.evening {
+  border-color: yellow;
+}
+
+.lineLeft hr.night {
+  border-color: aqua;
+  background-color: aqua;
+}
+
+.lineLeft hr.dawn {
+  border-color: orange;
+  background-color: orange;
+}
+
+.lineRight hr.morning {
+  border-color: aquamarine;
+  background-color: aquamarine;
+}
+
+.lineRight hr.evening {
+  border-color: yellow;
+  background-color: yellow;
+}
+
+.lineRight hr.night {
+  border-color: aqua;
+}
+
+.lineRight hr.dawn {
+  border-color: orange;
+}
+
+.travel .sun {
+  max-width: calc(35 * 100vh / 730);
+}
+
+.travel .sun.moon {
+  background-color: #000000af;
+  border: none;
+  border-radius: 100%;
+}
+
+.travel .sun .sunImage {
+  filter: invert(50%) sepia(90%) saturate(1200%) hue-rotate(15deg)
+    brightness(120%) contrast(120%);
+}
+
+.travel .sun .moonImage {
+  height: calc(40 * 100vh / 730);
+  width: calc(40 * 100vh / 730);
+}
+
+.riseTime,
+.setTime {
+  color: white;
   font-weight: bold;
   font-size: calc(16 * 100vmin / 730);
 }
