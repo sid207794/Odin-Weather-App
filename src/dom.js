@@ -58,10 +58,10 @@ const navigationBar = (function () {
       const currentTimeZone = cityData[0].timezone;
       const currentTime = cityData[0].currentConditions.datetime.slice(0, 5);
 
-      if (location.length === 3) {
+      if (location.length >= 3) {
         const city = location[0];
         const state = location[1];
-        const country = location[2];
+        const country = location[location.length - 1];
         locationName.textContent = `${city}, ${country}`;
       } else if (location.length === 2) {
         const state = location[0];
@@ -94,8 +94,17 @@ const navigationBar = (function () {
 
       locationConditions();
       sunriseStatus();
+      hourlyData();
+      prediction();
     }
   };
+
+  function prediction() {
+    const description = document.querySelector('.description');
+    const prediction = cityData[0].description;
+
+    description.textContent = prediction;
+  }
 })();
 
 const locationConditions = function () {
@@ -149,6 +158,7 @@ const locationConditions = function () {
     const img = document.createElement('img');
     const text = document.createElement('span');
     const data = document.createElement('span');
+
     div.classList.add(`data${i}`);
     div.classList.add('conditionData');
     divImg.classList.add('dataImg');
@@ -219,7 +229,7 @@ const locationConditions = function () {
 };
 
 const sunriseStatus = function () {
-  const body = document.querySelector('body');
+  const sunStatusCover = document.querySelector('.sunStatusCover');
   const riseTime = document.querySelector('.riseTime');
   const setTime = document.querySelector('.setTime');
   const leftHr = document.querySelector('.lineLeft hr');
@@ -232,6 +242,10 @@ const sunriseStatus = function () {
   const setImage = document.querySelector('.setImage');
   const data4Img = document.querySelector(`.data4 img`);
   const time = parseInt(cityData[0].currentConditions.datetime.slice(0, 2));
+  const sunriseHour = parseInt(
+    cityData[0].currentConditions.sunrise.slice(0, 2)
+  );
+  const sunsetHour = parseInt(cityData[0].currentConditions.sunset.slice(0, 2));
   const sunriseTime = cityData[0].currentConditions.sunrise.slice(0, 5);
   const sunsetTime = cityData[0].currentConditions.sunset.slice(0, 5);
 
@@ -239,82 +253,130 @@ const sunriseStatus = function () {
   leftHr.classList = '';
   sunImg.classList = '';
   sunDiv.classList.remove('moon');
-  body.classList.remove('background2');
+  sunStatusCover.classList.remove('sunDown');
 
-  if (time >= 5 && time <= 12) {
+  const sunStatusProperties = function () {
+    function beforeSunset(timeOfDay) {
+      rightHr.classList.add(timeOfDay);
+      leftHr.classList.add(timeOfDay);
+      riseTime.textContent = sunriseTime;
+      setTime.textContent = sunsetTime;
+      sunImg.classList.add('sunImage');
+      sunImg.src = sun;
+      riseText.textContent = 'Sunrise';
+      setText.textContent = 'Sunset';
+      riseImage.innerHTML = `<img src=${sunrise} alt="sunrise">`;
+      setImage.innerHTML = `<img src=${sunset} alt="sunset">`;
+    }
+
+    function afterSunset(timeOfDay) {
+      rightHr.classList.add(timeOfDay);
+      leftHr.classList.add(timeOfDay);
+      riseTime.textContent = sunsetTime;
+      setTime.textContent = sunriseTime;
+      sunDiv.classList.add('moon');
+      sunImg.classList.add('moonImage');
+      sunImg.src = data4Img.src;
+      riseText.textContent = 'Sunset';
+      setText.textContent = 'Sunrise';
+      riseImage.innerHTML = `<img src=${sunset} alt="sunset"></img>`;
+      setImage.innerHTML = `<img src=${sunrise} alt="sunrise">`;
+      sunStatusCover.classList.add('sunDown');
+    }
+
+    return { beforeSunset, afterSunset };
+  };
+
+  const sunStatusPropertiesFunction = sunStatusProperties();
+
+  if (time >= sunriseHour && time <= 12) {
     const timeDiff = 12 - time;
-    rightHr.style.width = `calc((120 + ${timeDiff * 17.14}) * 100vw / 1536)`;
-    leftHr.style.width = `calc((120 - ${timeDiff * 17.14}) * 100vw / 1536)`;
-    rightHr.classList.add('morning');
-    leftHr.classList.add('morning');
-    riseTime.textContent = sunriseTime;
-    setTime.textContent = sunsetTime;
-    sunImg.classList.add('sunImage');
-    sunImg.src = sun;
-    riseText.textContent = 'Sunrise';
-    setText.textContent = 'Sunset';
-    riseImage.innerHTML = `<img src=${sunrise} alt="sunrise">`;
-    setImage.innerHTML = `<img src=${sunset} alt="sunset">`;
-  } else if (time >= 13 && time <= 19) {
+    rightHr.style.width = `calc((120 + ${timeDiff * (120 / (12 - sunriseHour))}) * 100vw / 1536)`;
+    leftHr.style.width = `calc((120 - ${timeDiff * (120 / (12 - sunriseHour))}) * 100vw / 1536)`;
+    sunStatusPropertiesFunction.beforeSunset('morning');
+  } else if (time >= 13 && time <= sunsetHour) {
     const timeDiff = time - 12;
-    rightHr.style.width = `calc((120 - ${timeDiff * 17.14}) * 100vw / 1536)`;
-    leftHr.style.width = `calc((120 + ${timeDiff * 17.14}) * 100vw / 1536)`;
-    rightHr.classList.add('evening');
-    leftHr.classList.add('evening');
-    riseTime.textContent = sunriseTime;
-    setTime.textContent = sunsetTime;
-    sunImg.classList.add('sunImage');
-    sunImg.src = sun;
-    riseText.textContent = 'Sunrise';
-    setText.textContent = 'Sunset';
-    riseImage.innerHTML = `<img src=${sunrise} alt="sunrise">`;
-    setImage.innerHTML = `<img src=${sunset} alt="sunset">`;
-  } else if (time >= 20 && time <= 23) {
+    rightHr.style.width = `calc((120 - ${timeDiff * (120 / (sunsetHour - 12))}) * 100vw / 1536)`;
+    leftHr.style.width = `calc((120 + ${timeDiff * (120 / (sunsetHour - 12))}) * 100vw / 1536)`;
+    sunStatusPropertiesFunction.beforeSunset('evening');
+  } else if (time > sunsetHour && time <= 23) {
     const timeDiff = 24 - time;
-    rightHr.style.width = `calc((120 + ${timeDiff * 30}) * 100vw / 1536)`;
-    leftHr.style.width = `calc((120 - ${timeDiff * 30}) * 100vw / 1536)`;
-    rightHr.classList.add('night');
-    leftHr.classList.add('night');
-    riseTime.textContent = sunsetTime;
-    setTime.textContent = sunriseTime;
-    sunDiv.classList.add('moon');
-    sunImg.classList.add('moonImage');
-    sunImg.src = data4Img.src;
-    riseText.textContent = 'Sunset';
-    setText.textContent = 'Sunrise';
-    riseImage.innerHTML = `<img src=${sunset} alt="sunset"></img>`;
-    setImage.innerHTML = `<img src=${sunrise} alt="sunrise">`;
-    body.classList.add('background2');
+    rightHr.style.width = `calc((120 + ${timeDiff * (120 / (24 - sunsetHour))}) * 100vw / 1536)`;
+    leftHr.style.width = `calc((120 - ${timeDiff * (120 / (24 - sunsetHour))}) * 100vw / 1536)`;
+    sunStatusPropertiesFunction.afterSunset('night');
   } else if (time === 0) {
     rightHr.style.width = `calc(120 * 100vw / 1536)`;
     leftHr.style.width = `calc(120 * 100vw / 1536)`;
-    rightHr.classList.add('night');
-    leftHr.classList.add('night');
-    riseTime.textContent = sunsetTime;
-    setTime.textContent = sunriseTime;
-    sunDiv.classList.add('moon');
-    sunImg.classList.add('moonImage');
-    sunImg.src = data4Img.src;
-    riseText.textContent = 'Sunset';
-    setText.textContent = 'Sunrise';
-    riseImage.innerHTML = `<img src=${sunset} alt="sunset"></img>`;
-    setImage.innerHTML = `<img src=${sunrise} alt="sunrise">`;
-    body.classList.add('background2');
-  } else if (time > 0 && time <= 5) {
+    sunStatusPropertiesFunction.afterSunset('night');
+  } else if (time > 0 && time <= sunriseHour) {
     const timeDiff = time - 0;
-    rightHr.style.width = `calc((120 - ${timeDiff * 24}) * 100vw / 1536)`;
-    leftHr.style.width = `calc((120 + ${timeDiff * 24}) * 100vw / 1536)`;
-    rightHr.classList.add('dawn');
-    leftHr.classList.add('dawn');
-    riseTime.textContent = sunsetTime;
-    setTime.textContent = sunriseTime;
-    sunDiv.classList.add('moon');
-    sunImg.classList.add('moonImage');
-    sunImg.src = data4Img.src;
-    riseText.textContent = 'Sunset';
-    setText.textContent = 'Sunrise';
-    riseImage.innerHTML = `<img src=${sunset} alt="sunset"></img>`;
-    setImage.innerHTML = `<img src=${sunrise} alt="sunrise">`;
-    body.classList.add('background2');
+    rightHr.style.width = `calc((120 - ${timeDiff * (120 / sunriseHour)}) * 100vw / 1536)`;
+    leftHr.style.width = `calc((120 + ${timeDiff * (120 / sunriseHour)}) * 100vw / 1536)`;
+    sunStatusPropertiesFunction.afterSunset('dawn');
   }
+};
+
+const hourlyData = function () {
+  const today = cityData[0].days['0'];
+  const hourlydataWrapper = document.querySelector('.hourlydataWrapper');
+
+  hourlydataWrapper.replaceChildren();
+
+  for (let i = 0; i < 24; i++) {
+    const div = document.createElement('div');
+    const spanTime = document.createElement('span');
+    const divImg = document.createElement('div');
+    const spanTemperature = document.createElement('span');
+    const weatherStatus = today.hours[`${i}`].icon;
+    const weatherStatusImg = weatherStatus + '.svg';
+
+    div.classList.add(`hour${i}`);
+    div.classList.add(`timeToday`);
+    spanTime.classList.add('hourToday');
+    divImg.classList.add('hourlyWeather');
+    spanTemperature.classList.add('hourlyTemperature');
+    spanTime.textContent = today.hours[`${i}`].datetime.slice(0, 5);
+    divImg.innerHTML = `<img src='${iconObject[weatherStatusImg]}' alt='${weatherStatus}'>`;
+    spanTemperature.textContent = Math.floor(today.hours[`${i}`].temp) + ' °C';
+
+    hourlydataWrapper.appendChild(div);
+    div.appendChild(spanTime);
+    div.appendChild(divImg);
+    div.appendChild(spanTemperature);
+  }
+
+  const timeTodayChildren = document.querySelectorAll('.timeToday .hourToday');
+  const time = parseInt(cityData[0].currentConditions.datetime.slice(0, 2));
+  timeTodayChildren.forEach((child) => {
+    child.parentElement.classList.remove('inView');
+    if (parseInt(child.textContent.slice(0, 2)) === time) {
+      const observer = new IntersectionObserver(
+        (entries, observer) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              child.parentElement.scrollIntoView({
+                behavior: 'smooth',
+                inline: 'center',
+              });
+
+              child.parentElement.classList.add('inView');
+              observer.disconnect();
+            }
+          });
+        },
+        { threshold: 0.1 }
+      );
+
+      observer.observe(hourlydataWrapper);
+    }
+  });
+
+  hourlydataWrapper.addEventListener('wheel', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    hourlydataWrapper.scrollBy({
+      left: e.deltaY,
+      behavior: 'smooth',
+    });
+  });
 };
