@@ -9,10 +9,11 @@ body {
   padding: 0;
   margin: 0;
   transition: background-image 0.3s ease;
+  scroll-behavior: smooth;
 }
 
-body.background2 {
-  background-image: url('./images/ChatGPT\ Image\ May\ 15\,\ 2025\,\ 08_31_34\ PM.png');
+body::-webkit-scrollbar {
+  width: calc(0 * 100vw / 1536);
 }
 
 header {
@@ -23,7 +24,17 @@ header {
   position: relative;
 }
 
+.navLeftWrapper,
+.navRightWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
 .navLeft,
+.prediction,
 .navRight,
 .locationData,
 .tempBig {
@@ -41,14 +52,40 @@ header {
 
 .navLeft {
   min-width: calc(190.15 * 100vw / 1536);
-  flex-direction: column;
-  gap: calc(10 * 100vh / 730);
   user-select: none;
+}
+
+.prediction {
+  display: flex;
+  flex-direction: column;
+  gap: calc(5 * 100vh / 730);
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: calc(45 * 100vh / 730);
+  width: calc(170 * 100vw / 1536);
+  border-radius: calc(10 * 100vmin / 730);
+  cursor: default;
+  background: linear-gradient(to right, #ee097999, #ff6a0099);
+}
+
+.predictionTitle {
+  color: white;
+  font-weight: bold;
+  font-size: calc(16 * 100vmin / 730);
+  text-align: center;
+}
+
+.description {
+  color: rgb(205, 205, 205);
+  font-size: calc(14 * 100vmin / 730);
+  text-align: center;
 }
 
 .navRight {
   gap: calc(5 * 100vw / 1536);
   padding-right: calc(8 * 100vw / 1536);
+  user-select: none;
 }
 
 .locationDetail {
@@ -84,22 +121,21 @@ header {
 .locationData {
   display: flex;
   flex-direction: column;
-  gap: calc(10 * 100vw / 1536);
+  gap: calc(10 * 100vh / 730);
   position: absolute;
-  top: calc(40 * 100vh / 730);
+  top: calc(45 * 100vh / 730);
   font-size: calc(16 * 100vmin / 730);
   border-radius: calc(10 * 100vmin / 730);
-  background-color: #16161675;
   opacity: 0;
   visibility: hidden;
-  transform: translateY(70%);
+  transform: translateY(65%);
   transition:
     opacity 0.3s ease,
     transform 0.5s ease,
     visibility 0.5s ease;
 }
 
-.navLeft:hover > .locationData,
+.navLeftWrapper:hover > .locationData,
 .locationData:hover {
   opacity: 1;
   visibility: visible;
@@ -117,7 +153,7 @@ header {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: calc(5 * 100vw / 1536);
+  gap: calc(5 * 100vh / 730);
 }
 
 .latitudeData,
@@ -184,7 +220,7 @@ header {
 }
 
 .locationConditions {
-  margin-bottom: calc(25 * 100vh / 730);
+  margin-bottom: calc(28 * 100vh / 730);
 }
 
 .locationConditions,
@@ -203,6 +239,8 @@ header {
   padding-right: calc(35 * 100vw / 1536);
   height: fit-content;
   gap: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: saturate(180%) blur(10px);
 }
 
 .realTemp {
@@ -224,8 +262,8 @@ header {
 
 .moreConditions .conditionData {
   padding: calc(15 * 100vmin / 730);
-  padding-left: calc(35 * 100vw / 1536);
-  padding-right: calc(35 * 100vw / 1536);
+  padding-left: calc(25 * 100vw / 1536);
+  padding-right: calc(25 * 100vw / 1536);
   background-color: #16161650;
   /*background: linear-gradient(135deg, #00800050, #80008050);*/
   backdrop-filter: blur(5px);
@@ -276,13 +314,15 @@ header {
 .conditionData .textData {
   font-weight: bold;
   font-size: calc(16 * 100vmin / 730);
+  text-align: center;
 }
 
-.sunStatus {
+.sunStatus,
+.hourlyDataToday {
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin-bottom: calc(28 * 100vh / 730);
 }
 
 .sunStatusCover {
@@ -290,14 +330,18 @@ header {
   flex-direction: column;
   gap: calc(4 * 100vh / 730);
   /* background-color: #16161650; */
-  background: linear-gradient(90deg, #ff000050, #0000ff50);
-  backdrop-filter: blur(5px);
+  background: linear-gradient(90deg, #ff000075, #0000ff75);
+  backdrop-filter: blur(10px);
   border-radius: calc(15 * 100vmin / 730);
   padding: calc(10 * 100vmin / 730);
   padding-left: calc(25 * 100vw / 1536);
   padding-right: calc(25 * 100vw / 1536);
   height: fit-content;
   max-width: calc(280 * 100vw / 1536);
+}
+
+.sunStatusCover.sunDown {
+  background: linear-gradient(90deg, #0000ff75, #ff000075);
 }
 
 .riseSet,
@@ -421,6 +465,79 @@ header {
 
 .riseTime,
 .setTime {
+  color: white;
+  font-weight: bold;
+  font-size: calc(16 * 100vmin / 730);
+}
+
+.hourlydataWrapper {
+  display: flex;
+  align-items: center;
+  gap: calc(25 * 100vw / 1536);
+  background-color: #16161650;
+  backdrop-filter: blur(10px);
+  border-left: solid 10px #16161650;
+  border-right: solid 10px #16161650;
+  border-radius: calc(15 * 100vmin / 730);
+  padding: calc(10 * 100vmin / 730);
+  height: fit-content;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  scroll-behavior: smooth;
+  max-width: calc(915 * 100vw / 1536);
+  user-select: none;
+}
+
+.hourlydataWrapper::-webkit-scrollbar {
+  height: calc(0 * 100vh / 730);
+}
+
+.hourlydataWrapper::-webkit-scrollbar-track {
+  margin: 0 calc(30 * 100vw / 1536);
+  background-color: transparent;
+}
+
+.hourlydataWrapper::-webkit-scrollbar-thumb {
+  background-color: #ffffff50;
+  border-radius: calc(15 * 100vmin / 730);
+}
+
+.timeToday {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: calc(10 * 100vh / 730);
+  padding: calc(10 * 100vmin / 730);
+  padding-left: calc(15 * 100vmin / 730);
+  padding-right: calc(15 * 100vmin / 730);
+}
+
+.timeToday.inView {
+  background-color: #00000050;
+  border-radius: calc(15 * 100vmin / 730);
+}
+
+.hourToday {
+  color: white;
+  font-weight: bold;
+  font-size: calc(16 * 100vmin / 730);
+}
+
+.hourlyWeather {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(55 * 100vh / 730);
+  width: calc(55 * 100vh / 730);
+}
+
+.hourlyWeather img {
+  height: calc(55 * 100vh / 730);
+  width: calc(55 * 100vh / 730);
+}
+
+.hourlyTemperature {
   color: white;
   font-weight: bold;
   font-size: calc(16 * 100vmin / 730);
