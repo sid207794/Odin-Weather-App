@@ -65,7 +65,7 @@ header {
   top: calc(45 * 100vh / 730);
   width: calc(170 * 100vw / 1536);
   border-radius: calc(10 * 100vmin / 730);
-  cursor: default;
+  user-select: none;
   background: linear-gradient(to right, #ee097999, #ff6a0099);
 }
 
@@ -128,7 +128,8 @@ header {
   border-radius: calc(10 * 100vmin / 730);
   opacity: 0;
   visibility: hidden;
-  transform: translateY(65%);
+  transform: scale(65%);
+  user-select: none;
   transition:
     opacity 0.3s ease,
     transform 0.5s ease,
@@ -139,7 +140,7 @@ header {
 .locationData:hover {
   opacity: 1;
   visibility: visible;
-  transform: translateY(0);
+  transform: scale(100%);
 }
 
 .locationData .coordinates {
@@ -219,6 +220,74 @@ header {
     brightness(101%) contrast(102%);
 }
 
+.weatherIndicator {
+  position: fixed;
+  top: 25vh;
+  left: 1vw;
+  display: flex;
+  flex-direction: column;
+  gap: calc(50 * 100vh / 730);
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: saturate(180%) blur(10px);
+  padding: calc(25 * 100vmin / 730) calc(5 * 100vw / 1536);
+  border-radius: calc(25 * 100vmin / 730);
+  user-select: none;
+  cursor: default;
+}
+
+.heatWave,
+.rainStorm,
+.hurricane,
+.snowStorm,
+.alertIcon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(35 * 100vh / 730);
+  width: calc(35 * 100vh / 730);
+}
+
+.heatWave img,
+.rainStorm img,
+.hurricane img,
+.snowStorm img,
+.alertIcon img {
+  height: calc(35 * 100vh / 730);
+  width: calc(35 * 100vh / 730);
+  filter: invert(100%) brightness(50%);
+}
+
+.alertIcon.on img {
+  filter: invert(20%) sepia(100%) saturate(5000%) hue-rotate(0deg)
+    brightness(150%) contrast(100%) drop-shadow(0 0 2px red)
+    drop-shadow(0 0 2px red);
+}
+
+.heatWave.on img {
+  filter: invert(50%) sepia(100%) saturate(5000%) hue-rotate(0deg)
+    brightness(150%) contrast(100%) drop-shadow(0 0 1px darkOrange)
+    drop-shadow(0 0 2px darkOrange);
+}
+
+.rainStorm.on img {
+  filter: invert(70%) sepia(96%) saturate(2500%) hue-rotate(130deg)
+    brightness(150%) contrast(102%) drop-shadow(0 0 1px aqua)
+    drop-shadow(0 0 2px aqua);
+}
+
+.hurricane.on img {
+  filter: invert(100%) brightness(150%) drop-shadow(0 0 1px white)
+    drop-shadow(0 0 2px white);
+}
+
+.snowStorm.on img {
+  filter: invert(46%) sepia(96%) saturate(1918%) hue-rotate(185deg)
+    brightness(150%) contrast(102%) drop-shadow(0 0 2px rgb(0, 145, 255))
+    drop-shadow(0 0 2px rgb(0, 145, 255));
+}
+
 .locationConditions {
   margin-bottom: calc(28 * 100vh / 730);
 }
@@ -241,6 +310,7 @@ header {
   gap: 0;
   background: rgba(0, 0, 0, 0.5);
   backdrop-filter: saturate(180%) blur(10px);
+  user-select: none;
 }
 
 .realTemp {
@@ -338,6 +408,7 @@ header {
   padding-right: calc(25 * 100vw / 1536);
   height: fit-content;
   max-width: calc(280 * 100vw / 1536);
+  user-select: none;
 }
 
 .sunStatusCover.sunDown {
@@ -476,8 +547,8 @@ header {
   gap: calc(25 * 100vw / 1536);
   background-color: #16161650;
   backdrop-filter: blur(10px);
-  border-left: solid 10px #16161650;
-  border-right: solid 10px #16161650;
+  border-left: solid 10px transparent;
+  border-right: solid 10px transparent;
   border-radius: calc(15 * 100vmin / 730);
   padding: calc(10 * 100vmin / 730);
   height: fit-content;
