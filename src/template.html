@@ -10,12 +10,14 @@
   </head>
   <body>
     <header>
-      <nav class="navLeft">
-        <div class="locationDetail">
-          <div class="weatherIcon">⛅</div>
-          <div class="locationName">Rampur, India</div>
-          <div class="locationTemp">98 deg</div>
-        </div>
+      <div class="navLeftWrapper">
+        <nav class="navLeft">
+          <div class="locationDetail">
+            <div class="weatherIcon">⛅</div>
+            <div class="locationName">Rampur, India</div>
+            <div class="locationTemp">98 deg</div>
+          </div>
+        </nav>
         
         <div class="locationData">
           <div class="coordinates">
@@ -31,17 +33,24 @@
           <div class="time"></div>
           <div class="zone"></div>
         </div>
-      </nav>
-      
-      <nav class="navRight">
-        <input
-          type="text"
-          id="searchCity"
-          placeholder="City name"
-          autocomplete="off"
-        />
-        <button class="searchCityButton"><img src="./images/magnify.svg" alt="search"></button>
-      </nav>
+      </div>
+
+      <div class="navRightWrapper">
+        <nav class="navRight">
+          <input
+            type="text"
+            id="searchCity"
+            placeholder="City name"
+            autocomplete="off"
+          />
+          <button class="searchCityButton"><img src="./images/magnify.svg" alt="search"></button>
+        </nav>
+
+        <div class="prediction">
+          <span class="predictionTitle">PREDICTION</span>
+          <span class="description"></span>
+        </div>
+      </div>
     </header>
 
     <div class="locationConditions">
@@ -76,6 +85,10 @@
           <div class="setTime"></div>
         </div>
       </div>
+    </div>
+
+    <div class="hourlyDataToday">
+      <div class="hourlydataWrapper"></div>
     </div>
   </body>
 </html>
