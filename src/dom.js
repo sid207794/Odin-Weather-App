@@ -96,6 +96,7 @@ const navigationBar = (function () {
       sunriseStatus();
       hourlyData();
       prediction();
+      warningIndicator();
     }
   };
 
@@ -379,4 +380,65 @@ const hourlyData = function () {
       behavior: 'smooth',
     });
   });
+};
+
+const warningIndicator = function () {
+  const alert = document.querySelector('.alertIcon');
+  const heatWave = document.querySelector('.heatWave');
+  const rainStorm = document.querySelector('.rainStorm');
+  const hurricane = document.querySelector('.hurricane');
+  const snowStorm = document.querySelector('.snowStorm');
+  const temperatureC = Math.floor(cityData[0].currentConditions.temp);
+  const feelsLikeC = Math.floor(cityData[0].currentConditions.feelslike);
+  const humidity = Math.floor(cityData[0].currentConditions.humidity);
+  const precipitation = cityData[0].currentConditions.precip;
+  const windspeed = Math.floor(cityData[0].currentConditions.windspeed);
+  const windgust = Math.floor(cityData[0].currentConditions.windgust);
+  const severeRisk = Math.floor(cityData[0].currentConditions.severerisk);
+  const cloudcover = Math.floor(cityData[0].currentConditions.cloudcover);
+  const snow = cityData[0].currentConditions.snow;
+  const visibility = cityData[0].currentConditions.visibility;
+  const pressure = cityData[0].currentConditions.pressure;
+
+  alert.classList.remove('on');
+  heatWave.classList.remove('on');
+  rainStorm.classList.remove('on');
+  hurricane.classList.remove('on');
+  snowStorm.classList.remove('on');
+
+  let rainStormScore = 0;
+
+  if (
+    (temperatureC >= 35 && feelsLikeC >= 38 && humidity >= 60) ||
+    (temperatureC >= 35 && feelsLikeC >= 38)
+  ) {
+    alert.classList.add('on');
+    heatWave.classList.add('on');
+  }
+
+  if (precipitation >= 10) rainStormScore++;
+  if (windspeed >= 30) rainStormScore++;
+  if (severeRisk >= 50) rainStormScore++;
+  if (cloudcover >= 80) rainStormScore++;
+
+  if (rainStormScore >= 2) {
+    alert.classList.add('on');
+    rainStorm.classList.add('on');
+  }
+
+  if (
+    (windspeed >= 120 &&
+      windgust >= 150 &&
+      pressure <= 980 &&
+      severeRisk >= 70) ||
+    (windspeed >= 120 && windgust >= 150 && pressure <= 980)
+  ) {
+    alert.classList.add('on');
+    hurricane.classList.add('on');
+  }
+
+  if (snow >= 5 && windspeed >= 30 && visibility <= 1) {
+    alert.classList.add('on');
+    snowStorm.classList.add('on');
+  }
 };
