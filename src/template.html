@@ -37,6 +37,7 @@
 
       <div class="navRightWrapper">
         <nav class="navRight">
+          <div class="refresh"><img src="./images/refresh.svg" alt="refreshData"></div>
           <input
             type="text"
             id="searchCity"
@@ -53,50 +54,63 @@
       </div>
     </header>
 
-    <div class="weatherIndicator">
-      <div class="alertIcon"><img src="./images/alert-circle-outline.svg" alt="alertIcon"></div>
-      <div class="heatWave"><img src="./images/heat-wave.svg" alt="heatWave"></div>
-      <div class="rainStorm"><img src="./images/weather-lightning-rainy.svg" alt="rainStorm"></div>
-      <div class="hurricane"><img src="./images/weather-hurricane.svg" alt="hurricane"></div>
-      <div class="snowStorm"><img src="./images/snowflake-alert.svg" alt="snowStorm"></div>
-    </div>
-
-    <div class="locationConditions">
-      <div class="tempBig">
-        <div class="realTemp"></div>
-        <div class="feelsLike"></div>
+    <div class="content">
+      <div class="weatherIndicator">
+        <div class="alertIcon"><img src="./images/alert-circle-outline.svg" alt="alertIcon"></div>
+        <div class="heatWave"><img src="./images/heat-wave.svg" alt="heatWave"></div>
+        <div class="rainStorm"><img src="./images/weather-lightning-rainy.svg" alt="rainStorm"></div>
+        <div class="hurricane"><img src="./images/weather-hurricane.svg" alt="hurricane"></div>
+        <div class="snowStorm"><img src="./images/snowflake-alert.svg" alt="snowStorm"></div>
       </div>
-      <div class="moreConditions"></div>
-    </div>
 
-    <div class="sunStatus">
-      <div class="sunStatusCover">
-        <div class="riseSet">
-          <div class="rise">
-            <div class="riseImage"><img src="./images/sunrise.svg" alt="sunrise"></div>
-            <span class="riseText"></span>
+      <div class="locationConditions">
+        <div class="tempBig">
+          <div class="realTemp"></div>
+          <div class="feelsLike"></div>
+        </div>
+        <div class="moreConditions"></div>
+      </div>
+
+      <div class="sunStatus">
+        <div class="sunStatusCover">
+          <div class="riseSet">
+            <div class="rise">
+              <div class="riseImage"><img src="./images/sunrise.svg" alt="sunrise"></div>
+              <span class="riseText"></span>
+            </div>
+            <div class="set">
+              <div class="setImage"><img src="./images/sunset.svg" alt="sunset"></div>
+              <span class="setText"></span>
+            </div>
           </div>
-          <div class="set">
-            <div class="setImage"><img src="./images/sunset.svg" alt="sunset"></div>
-            <span class="setText"></span>
+
+          <div class="travel">
+            <div class="lineLeft"><hr></div>
+            <div class="sun"><img src="./images/sun.svg" alt="sun"></div>
+            <div class="lineRight"><hr></div>
+          </div>
+
+          <div class="riseSetTime">
+            <div class="riseTime"></div>
+            <div class="setTime"></div>
           </div>
         </div>
+      </div>
 
-        <div class="travel">
-          <div class="lineLeft"><hr></div>
-          <div class="sun"><img src="./images/sun.svg" alt="sun"></div>
-          <div class="lineRight"><hr></div>
-        </div>
+      <div class="hourlyDataToday">
+        <div class="hourlydataWrapper"></div>
+      </div>
 
-        <div class="riseSetTime">
-          <div class="riseTime"></div>
-          <div class="setTime"></div>
-        </div>
+      <div class="upcomingForecast">
+        <div class="upcomingForecastWrapper"></div>
       </div>
     </div>
 
-    <div class="hourlyDataToday">
-      <div class="hourlydataWrapper"></div>
-    </div>
+    <footer>
+      <div class="copyrightDetails">&copy; 2025 Siddharth Singh - 
+        <a href="https://github.com/sid207794/Odin-Weather-App" target="_blank">GitHub Repo</a> - 
+        Built with guidance from <a href="https://www.theodinproject.com" target="_blank">The Odin Project</a>
+      </div>
+    </footer>
   </body>
 </html>
