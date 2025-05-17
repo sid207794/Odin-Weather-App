@@ -18,6 +18,152 @@ body::-webkit-scrollbar {
   width: calc(0 * 100vw / 1536);
 }
 
+.loadPage {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  height: 100%;
+  width: 100%;
+  background-color: black;
+  z-index: 999999;
+  opacity: 1;
+  visibility: visible;
+  transition:
+    opacity 0.5s ease-in-out,
+    visibility 0.5s ease;
+}
+
+.loadPage.fadeOut {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.loadPage .text {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1vw;
+  margin-top: auto;
+  color: white;
+  font-weight: 900;
+  font-size: calc(55 * 100vmin / 730);
+  text-align: center;
+  user-select: none;
+}
+
+.loadPage .pronounChange {
+  width: 6ch;
+  text-align: right;
+  background: -webkit-linear-gradient(45deg, #12c2e9, #c471ed, #f64f59);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  opacity: 1;
+  transition: opacity 0.4s ease-in-out;
+}
+
+.loadPage .pronounChange.change {
+  opacity: 0;
+}
+
+.moto {
+  word-spacing: 0.25vw;
+  padding-right: 2.5ch;
+}
+
+.getLocation {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.75vw;
+  user-select: none;
+  position: relative;
+  margin-top: 6vh;
+}
+
+.geolocation {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(25 * 100vh / 730);
+  width: calc(25 * 100vh / 730);
+  background-color: transparent;
+  border: none;
+  border-radius: 100%;
+  cursor: pointer;
+}
+
+.geolocation img {
+  height: calc(25 * 100vh / 730);
+  width: calc(25 * 100vh / 730);
+  filter: invert(100%) brightness(50%);
+}
+
+.geolocation:hover img {
+  filter: invert(100%) brightness(100%);
+}
+
+.error {
+  background-color: red;
+  border-radius: calc(5 * 100vmin / 730);
+  height: fit-content;
+  color: white;
+  font-weight: 500;
+  font-size: calc(15 * 100vmin / 730);
+  text-align: center;
+  user-select: none;
+  padding: calc(5 * 100vmin / 730);
+  opacity: 0;
+  transform: scale(0.85);
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
+  margin-bottom: 12vh;
+  margin-top: 3vh;
+}
+
+.error.display,
+.error.loading {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.error.loading {
+  background-color: transparent;
+  color: white;
+  font-weight: normal;
+  font-size: calc(15 * 100vmin / 730);
+  text-align: center;
+}
+
+.manualLocation {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5vw;
+}
+
+#locationBox {
+  outline: none;
+  border: none;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: saturate(180%) blur(10px);
+  color: white;
+  font-weight: bold;
+  border-bottom: solid calc(2 * 100vh / 730) transparent;
+  font-size: calc(16 * 100vmin / 730);
+  width: calc(156.175 * 100vw / 1536);
+  border-image: linear-gradient(to right, #12c2e9, #c471ed, #f64f59);
+  border-image-slice: 1;
+}
+
+#locationBox::placeholder {
+  font-weight: normal;
+}
+
 .content {
   flex: 1;
 }
