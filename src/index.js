@@ -1,6 +1,22 @@
 import './style.css';
 import { getWeatherApi, cityData } from './logic.js';
 import './dom.js';
+import * as THREE from 'three';
+import BIRDS from 'vanta/src/vanta.birds';
+
+let vantaEffect;
+
+vantaEffect = BIRDS({
+  el: '.loadPage',
+  THREE: THREE,
+  mouseControls: false,
+  touchControls: false,
+  gyroControls: false,
+  minHeight: 200.0,
+  minWidth: 200.0,
+  scale: 1.0,
+  scaleMobile: 1.0,
+});
 
 const startapp = (function () {
   (function loadPageAnimation() {
