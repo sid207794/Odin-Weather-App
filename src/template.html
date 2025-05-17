@@ -9,6 +9,23 @@
     <title>⛅ Weather App</title>
   </head>
   <body>
+    <div class="loadPage">
+      <div class="text">
+        <span class="pronounChange">OUR</span>
+        <span class="moto">WEATHER APP</span>
+      </div>
+
+      <div class="getLocation">
+        <button class="geolocation"><img src="./images/crosshairs-gps.svg" alt="gps"></button>
+        <div class="manualLocation">
+          <input type="text" id="locationBox" placeholder="Search places..." autocomplete="off" spellcheck="false">
+          <button class="searchCityButton"><img src="./images/magnify.svg" alt="search place"></button>
+        </div>
+      </div>
+      
+      <span class="error">HEELLO</span>
+    </div>
+
     <header>
       <div class="navLeftWrapper">
         <nav class="navLeft">
@@ -41,8 +58,9 @@
           <input
             type="text"
             id="searchCity"
-            placeholder="City name"
-            autocomplete="off"
+            placeholder="Search places..."
+            autocomplete="off" 
+            spellcheck="false"
           />
           <button class="searchCityButton"><img src="./images/magnify.svg" alt="search"></button>
         </nav>
