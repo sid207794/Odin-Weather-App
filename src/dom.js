@@ -2,6 +2,7 @@ import { cityData, getWeatherApi } from './logic';
 import sun from './images/sun.svg';
 import sunset from './images/sunset.svg';
 import sunrise from './images/sunrise.svg';
+import drop from './images/water.svg';
 
 const weatherIcons = require.context('./images/weatherIcons', false, /\.svg$/);
 const iconObject = {};
@@ -25,12 +26,17 @@ const navigationBar = (function () {
       e.preventDefault();
       e.stopPropagation();
       const searchCity = document.querySelector('#searchCity');
+      const refresh = document.querySelector('.refresh');
       let inputCity = searchCity.value;
 
       if (inputCity) {
+        refresh.classList.add('on');
         getWeatherApi(inputCity).then(() => {
           leftSide();
           searchCity.value = '';
+          setTimeout(() => {
+            refresh.classList.remove('on');
+          }, 500);
         });
       }
     });
@@ -97,6 +103,7 @@ const navigationBar = (function () {
       hourlyData();
       prediction();
       warningIndicator();
+      forecast();
     }
   };
 
@@ -328,6 +335,10 @@ const hourlyData = function () {
     const spanTime = document.createElement('span');
     const divImg = document.createElement('div');
     const spanTemperature = document.createElement('span');
+    const precipitationPercent = document.createElement('div');
+    const dropImg = document.createElement('img');
+    const spanPercent = document.createElement('span');
+
     const weatherStatus = today.hours[`${i}`].icon;
     const weatherStatusImg = weatherStatus + '.svg';
 
@@ -339,11 +350,19 @@ const hourlyData = function () {
     spanTime.textContent = today.hours[`${i}`].datetime.slice(0, 5);
     divImg.innerHTML = `<img src='${iconObject[weatherStatusImg]}' alt='${weatherStatus}'>`;
     spanTemperature.textContent = Math.floor(today.hours[`${i}`].temp) + ' °C';
+    precipitationPercent.classList.add('precipitationPercent');
+    dropImg.src = drop;
+    dropImg.classList.add('dropImg');
+    spanPercent.classList.add('spanPercent');
+    spanPercent.textContent = Math.floor(today.hours[`${i}`].precipprob) + '%';
 
     hourlydataWrapper.appendChild(div);
     div.appendChild(spanTime);
     div.appendChild(divImg);
     div.appendChild(spanTemperature);
+    div.appendChild(precipitationPercent);
+    precipitationPercent.appendChild(dropImg);
+    precipitationPercent.appendChild(spanPercent);
   }
 
   const timeTodayChildren = document.querySelectorAll('.timeToday .hourToday');
@@ -357,6 +376,7 @@ const hourlyData = function () {
             if (entry.isIntersecting) {
               child.parentElement.scrollIntoView({
                 behavior: 'smooth',
+                block: 'nearest',
                 inline: 'center',
               });
 
@@ -442,3 +462,121 @@ const warningIndicator = function () {
     snowStorm.classList.add('on');
   }
 };
+
+const forecast = function () {
+  const days = cityData[0].days;
+  const upcomingForecastWrapper = document.querySelector(
+    '.upcomingForecastWrapper'
+  );
+
+  upcomingForecastWrapper.replaceChildren();
+
+  for (let i = 0; i < 15; i++) {
+    const div = document.createElement('div');
+    const date = document.createElement('div');
+    const calendarDate = document.createElement('span');
+    const calendarDay = document.createElement('span');
+    const condition = document.createElement('div');
+    const minMaxTemperature = document.createElement('div');
+    const minTemperature = document.createElement('span');
+    const forwardSlash = document.createElement('span');
+    const maxTemperature = document.createElement('span');
+    const precipitationPercent = document.createElement('div');
+    const dropImg = document.createElement('img');
+    const spanPercent = document.createElement('span');
+    const moonphaseForecast = document.createElement('div');
+    const moonphaseForecastImg = document.createElement('img');
+
+    const weatherStatus = days[`${i}`].icon;
+    const weatherStatusImg = weatherStatus + '.svg';
+    const datetime = days[`${i}`].datetime;
+    const [yyyy, mm, dd] = datetime.split('-');
+    const monthName = new Date(parseInt(yyyy), parseInt(mm) - 1).toLocaleString(
+      'default',
+      { month: 'short' }
+    );
+    const weekDayName = new Date(
+      parseInt(yyyy),
+      parseInt(mm) - 1,
+      parseInt(dd)
+    ).toLocaleString('default', { weekday: 'short' });
+    const getTempMax = Math.floor(days[`${i}`].tempmax);
+    const getTempMin = Math.floor(days[`${i}`].tempmin);
+
+    const moonPhase = parseFloat(days[`${i}`].moonphase);
+    moonphaseForecast.classList.add('moonphaseForecast');
+    if (moonPhase === 0 || moonPhase === 1) {
+      moonphaseForecastImg.src = moonIconObject['moonN.svg'];
+    } else if (0 < moonPhase && moonPhase < 0.25) {
+      moonphaseForecastImg.src = moonIconObject['moonWXC.svg'];
+    } else if (moonPhase === 0.25) {
+      moonphaseForecastImg.src = moonIconObject['moonFQ.svg'];
+    } else if (0.25 < moonPhase && moonPhase < 0.5) {
+      moonphaseForecastImg.src = moonIconObject['moonWXG.svg'];
+    } else if (moonPhase === 0.5) {
+      moonphaseForecastImg.src = moonIconObject['moonF.svg'];
+    } else if (0.5 < moonPhase && moonPhase < 0.75) {
+      moonphaseForecastImg.src = moonIconObject['moonWNG.svg'];
+    } else if (moonPhase === 0.75) {
+      moonphaseForecastImg.src = moonIconObject['moonLQ.svg'];
+    } else if (0.75 < moonPhase && moonPhase < 1) {
+      moonphaseForecastImg.src = moonIconObject['moonWNC.svg'];
+    }
+
+    div.classList.add(`day${i}`);
+    div.classList.add('daysForecast');
+    date.classList.add('date');
+    calendarDate.classList.add('calendarDate');
+    calendarDate.textContent = `${dd} ${monthName}`;
+    calendarDay.classList.add('calendarDay');
+    calendarDay.textContent = `${weekDayName}`;
+    condition.classList.add('conditionForecast');
+    condition.innerHTML = `<img src='${iconObject[weatherStatusImg]}' alt='${weatherStatus}'>`;
+    minMaxTemperature.classList.add('minMaxTemperature');
+    minTemperature.classList.add('minTemperature');
+    minTemperature.textContent = getTempMin + ' °C';
+    forwardSlash.classList.add('forwardSlash');
+    forwardSlash.textContent = ' / ';
+    maxTemperature.classList.add('maxTemperature');
+    maxTemperature.textContent = getTempMax + ' °C';
+    precipitationPercent.classList.add('precipitationPercent');
+    dropImg.src = drop;
+    dropImg.classList.add('dropImg');
+    spanPercent.classList.add('spanPercent');
+    spanPercent.textContent = Math.floor(days[`${i}`].precipprob) + '%';
+
+    upcomingForecastWrapper.appendChild(div);
+    div.appendChild(date);
+    date.appendChild(calendarDate);
+    date.appendChild(calendarDay);
+    div.appendChild(condition);
+    div.appendChild(precipitationPercent);
+    precipitationPercent.appendChild(dropImg);
+    precipitationPercent.appendChild(spanPercent);
+    div.appendChild(moonphaseForecast);
+    moonphaseForecast.appendChild(moonphaseForecastImg);
+    div.appendChild(minMaxTemperature);
+    minMaxTemperature.appendChild(minTemperature);
+    minMaxTemperature.appendChild(forwardSlash);
+    minMaxTemperature.appendChild(maxTemperature);
+  }
+
+  const day0 = document.querySelector('.day0 .calendarDay');
+  const day1 = document.querySelector('.day1 .calendarDay');
+  day0.textContent = 'Today';
+  day1.textContent = 'Tomorrow';
+};
+
+const refresh = (function () {
+  const refreshIcon = document.querySelector('.refresh');
+  const searchCityButton = document.querySelector('.searchCityButton');
+  const searchCity = document.querySelector('#searchCity');
+
+  refreshIcon.addEventListener('click', () => {
+    if (cityData.length !== 0) {
+      const address = cityData[0].address;
+      searchCity.value = address;
+      searchCityButton.click();
+    }
+  });
+})();
