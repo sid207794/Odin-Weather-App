@@ -1,4 +1,6 @@
 body {
+  display: flex;
+  flex-direction: column;
   font-family: 'Roboto', serif;
   height: 100vh;
   background-image: url('./images/ChatGPT\ Image\ May\ 15\,\ 2025\,\ 08_31_30\ PM.png');
@@ -14,6 +16,10 @@ body {
 
 body::-webkit-scrollbar {
   width: calc(0 * 100vw / 1536);
+}
+
+.content {
+  flex: 1;
 }
 
 header {
@@ -55,6 +61,43 @@ header {
   user-select: none;
 }
 
+.refresh {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(25 * 100vh / 730);
+  width: calc(25 * 100vh / 730);
+  border: none;
+  border-radius: 100%;
+  user-select: none;
+  cursor: pointer;
+}
+
+.refresh img {
+  height: calc(25 * 100vh / 730);
+  width: calc(25 * 100vh / 730);
+  filter: invert(100%) brightness(80%);
+}
+
+.refresh:hover img,
+.refresh.on img {
+  filter: invert(70%) sepia(96%) saturate(2500%) hue-rotate(130deg)
+    brightness(150%) contrast(102%) drop-shadow(0 0 2px aqua);
+}
+
+.refresh.on img {
+  animation: spin 1s infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
 .prediction {
   display: flex;
   flex-direction: column;
@@ -83,7 +126,7 @@ header {
 }
 
 .navRight {
-  gap: calc(5 * 100vw / 1536);
+  gap: calc(8 * 100vw / 1536);
   padding-right: calc(8 * 100vw / 1536);
   user-select: none;
 }
@@ -388,7 +431,8 @@ header {
 }
 
 .sunStatus,
-.hourlyDataToday {
+.hourlyDataToday,
+.upcomingForecast {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -547,8 +591,8 @@ header {
   gap: calc(25 * 100vw / 1536);
   background-color: #16161650;
   backdrop-filter: blur(10px);
-  border-left: solid 10px transparent;
-  border-right: solid 10px transparent;
+  border-left: solid calc(10 * 100vw / 1536) transparent;
+  border-right: solid calc(10 * 100vw / 1536) transparent;
   border-radius: calc(15 * 100vmin / 730);
   padding: calc(10 * 100vmin / 730);
   height: fit-content;
@@ -612,4 +656,166 @@ header {
   color: white;
   font-weight: bold;
   font-size: calc(16 * 100vmin / 730);
+}
+
+.precipitationPercent {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.dropImg {
+  height: calc(20 * 100vh / 730);
+  width: calc(20 * 100vh / 730);
+  filter: invert(70%) sepia(96%) saturate(2500%) hue-rotate(130deg)
+    brightness(150%) contrast(102%) drop-shadow(0 0 1px aqua)
+    drop-shadow(0 0 2px aqua);
+}
+
+.spanPercent {
+  color: white;
+  font-size: calc(16 * 100vmin / 730);
+}
+
+.upcomingForecastWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: calc(10 * 100vh / 730);
+  border-radius: calc(15 * 100vmin / 730);
+  padding: calc(15 * 100vmin / 730);
+  padding-left: calc(35 * 100vw / 1536);
+  padding-right: calc(35 * 100vw / 1536);
+  height: fit-content;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: saturate(180%) blur(5px);
+  user-select: none;
+  max-width: calc(915 * 100vw / 1536);
+}
+
+.daysForecast {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: calc(50 * 100vw / 1536);
+  min-width: 100%;
+}
+
+.date {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: calc(10 * 100vw / 1536);
+}
+
+.calendarDate,
+.calendarDay,
+.minTemperature,
+.maxTemperature {
+  color: white;
+  font-weight: bold;
+  font-size: calc(16 * 100vmin / 730);
+}
+
+.calendarDate {
+  text-align: right;
+}
+
+.calendarDay {
+  text-align: left;
+  width: calc(80 * 100vw / 1536);
+}
+
+.conditionForecast,
+.moonphaseForecast {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(40 * 100vh / 730);
+  width: calc(40 * 100vh / 730);
+}
+
+.conditionForecast img {
+  height: calc(40 * 100vh / 730);
+  width: calc(40 * 100vh / 730);
+}
+
+.minMaxTemperature {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: calc(5 * 100vw / 1536);
+  width: calc(100 * 100vw / 1536);
+}
+
+.forwardSlash {
+  color: rgb(205, 205, 205, 0.75);
+  font-size: calc(16 * 100vmin / 730);
+}
+
+.daysForecast .precipitationPercent {
+  width: calc(70 * 100vw / 1536);
+}
+
+.daysForecast .precipitationPercent .spanPercent {
+  color: white;
+  font-weight: bold;
+  font-size: calc(16 * 100vmin / 730);
+}
+
+.moonphaseForecast {
+  background-color: #000000af;
+  border: none;
+  border-radius: 100%;
+}
+
+.moonphaseForecast {
+  height: calc(30 * 100vh / 730);
+  width: calc(30 * 100vh / 730);
+}
+
+.moonphaseForecast img {
+  filter: invert(100%);
+  height: calc(35 * 100vh / 730);
+  width: calc(35 * 100vh / 730);
+}
+
+footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #000000af;
+  backdrop-filter: saturate(180%) blur(10px);
+  padding: calc(15 * 100vh / 730) 0;
+}
+
+.copyrightDetails {
+  color: white;
+  font-size: calc(16 * 100vmin / 730);
+  text-align: center;
+}
+
+.copyrightDetails a {
+  text-decoration: none;
+  font-weight: bold;
+  color: aqua;
+}
+
+.copyrightDetails a:hover {
+  text-shadow:
+    0 0 2px aqua,
+    0 0 2px aqua;
+}
+
+.copyrightDetails a + a {
+  text-decoration: none;
+  color: rgb(2, 169, 116);
+}
+
+.copyrightDetails a + a:hover {
+  text-shadow:
+    0 0 2px green,
+    0 0 2px green;
 }
