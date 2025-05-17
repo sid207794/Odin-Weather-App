@@ -20,7 +20,9 @@ moonIcons.keys().forEach((key) => {
 
 const navigationBar = (function () {
   const rightSide = (function () {
-    const searchCityButton = document.querySelector('.searchCityButton');
+    const searchCityButton = document.querySelector(
+      '.navRight .searchCityButton'
+    );
 
     searchCityButton.addEventListener('click', (e) => {
       e.preventDefault();
