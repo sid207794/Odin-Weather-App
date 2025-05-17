@@ -58,7 +58,7 @@ body::-webkit-scrollbar {
 .loadPage .pronounChange {
   width: 6ch;
   text-align: right;
-  background: -webkit-linear-gradient(45deg, #12c2e9, #c471ed, #f64f59);
+  background: -webkit-linear-gradient(45deg, purple, #c471ed, aqua);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   opacity: 1;
@@ -144,20 +144,25 @@ body::-webkit-scrollbar {
   justify-content: center;
   align-items: center;
   gap: 0.5vw;
+  position: relative;
 }
 
 #locationBox {
   outline: none;
   border: none;
   background-color: rgba(0, 0, 0, 0.5);
-  backdrop-filter: saturate(180%) blur(10px);
+  backdrop-filter: saturate(180%) (10px);
+  padding: calc(8 * 100vh / 730) calc(15 * 100vw / 1536);
   color: white;
   font-weight: bold;
-  border-bottom: solid calc(2 * 100vh / 730) transparent;
-  font-size: calc(16 * 100vmin / 730);
+  border-bottom: solid calc(3 * 100vh / 730) transparent;
+  border-top-left-radius: calc(10 * 100vmin / 730);
+  border-top-right-radius: calc(10 * 100vmin / 730);
+  font-size: calc(20 * 100vmin / 730);
   width: calc(156.175 * 100vw / 1536);
-  border-image: linear-gradient(to right, #12c2e9, #c471ed, #f64f59);
+  border-image: linear-gradient(to right, purple, #c471ed, aqua);
   border-image-slice: 1;
+  box-sizing: content-box;
 }
 
 #locationBox::placeholder {
@@ -932,7 +937,7 @@ footer {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #000000af;
+  background-color: #16161675;
   backdrop-filter: saturate(180%) blur(10px);
   padding: calc(15 * 100vh / 730) 0;
 }
