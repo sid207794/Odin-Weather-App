@@ -1,3 +1,5 @@
+import { vantaEffect } from './index.js';
+
 export let cityData = [];
 
 export async function getWeatherApi(city) {
@@ -14,6 +16,12 @@ export async function getWeatherApi(city) {
 
     setTimeout(() => {
       loadPage.classList.add('fadeOut');
+      setTimeout(() => {
+        if (vantaEffect) {
+          vantaEffect.destroy();
+          console.log('VantaEffect was destroyed!');
+        }
+      }, 1000);
     }, 1500);
     console.log(cityData);
   } catch (error) {
