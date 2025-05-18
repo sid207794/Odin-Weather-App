@@ -10,8 +10,25 @@ export async function getWeatherApi(city) {
     );
     const resolveReference = await resolve.json();
     cityData.push(resolveReference);
+    const loadPage = document.querySelector('.loadPage');
+
+    setTimeout(() => {
+      loadPage.classList.add('fadeOut');
+    }, 1500);
     console.log(cityData);
   } catch (error) {
-    alert('City not found!', error);
+    const errorDisplay = document.querySelector('.loadPage .error');
+    const bodyError = document.querySelector('.bodyError');
+
+    bodyError.classList.add('display');
+    errorDisplay.classList.remove('loading');
+    errorDisplay.classList.add('display');
+    errorDisplay.textContent = 'We were unable to find this place!';
+    bodyError.textContent = 'We were unable to find this place!';
+
+    setTimeout(() => {
+      bodyError.classList.remove('display');
+      errorDisplay.classList.remove('display');
+    }, 2500);
   }
 }
