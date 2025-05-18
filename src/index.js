@@ -87,10 +87,6 @@ const startapp = (function () {
         errorDisplay.textContent = 'Fetching meteorological data...';
         errorDisplay.classList.remove('display');
         errorDisplay.classList.add('loading');
-
-        setTimeout(() => {
-          loadPage.classList.add('fadeOut');
-        }, 1500);
       }
     });
   })();
