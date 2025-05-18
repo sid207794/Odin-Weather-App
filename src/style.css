@@ -3,19 +3,27 @@ body {
   flex-direction: column;
   font-family: 'Roboto', serif;
   height: 100vh;
-  background-image: url('./images/ChatGPT\ Image\ May\ 15\,\ 2025\,\ 08_31_30\ PM.png');
-  background-size: cover;
+  /* background-image: url('./images/ChatGPT\ Image\ May\ 15\,\ 2025\,\ 08_31_30\ PM.png'); */
+  /* background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  background-attachment: fixed;
+  background-attachment: fixed; */
   padding: 0;
   margin: 0;
-  transition: background-image 0.3s ease;
   scroll-behavior: smooth;
 }
 
 body::-webkit-scrollbar {
   width: calc(0 * 100vw / 1536);
+}
+
+#bg-video {
+  position: fixed;
+  top: 0;
+  left: 0;
+  min-height: 100%;
+  min-width: 100%;
+  z-index: -1;
 }
 
 .loadPage {
@@ -78,7 +86,7 @@ body::-webkit-scrollbar {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 1.75vw;
+  gap: 0.5vw;
   user-select: none;
   position: relative;
   margin-top: 6vh;
@@ -106,8 +114,9 @@ body::-webkit-scrollbar {
   filter: invert(100%) brightness(100%);
 }
 
-.error {
-  background-color: red;
+.error,
+.bodyError {
+  background-color: #ff0000ea;
   border-radius: calc(5 * 100vmin / 730);
   height: fit-content;
   color: white;
@@ -126,9 +135,18 @@ body::-webkit-scrollbar {
 }
 
 .error.display,
-.error.loading {
+.error.loading,
+.bodyError.display {
   opacity: 1;
   transform: scale(1);
+}
+
+.bodyError.display,
+.bodyError {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
 }
 
 .error.loading {
@@ -143,7 +161,6 @@ body::-webkit-scrollbar {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 0.5vw;
   position: relative;
 }
 
@@ -154,7 +171,7 @@ body::-webkit-scrollbar {
   backdrop-filter: saturate(180%) (10px);
   padding: calc(8 * 100vh / 730) calc(15 * 100vw / 1536);
   color: white;
-  font-weight: bold;
+  text-align: center;
   border-bottom: solid calc(3 * 100vh / 730) transparent;
   border-top-left-radius: calc(10 * 100vmin / 730);
   border-top-right-radius: calc(10 * 100vmin / 730);
@@ -637,11 +654,15 @@ header {
 }
 
 .riseImage img,
-.setImage img,
-.travel .sun img {
+.setImage img {
   height: calc(35 * 100vh / 730);
   width: calc(35 * 100vh / 730);
   filter: invert(100%);
+}
+
+.travel .sun img {
+  height: calc(85 * 100vh / 730);
+  width: calc(85 * 100vh / 730);
 }
 
 .riseText,
@@ -713,20 +734,14 @@ header {
   max-width: calc(35 * 100vh / 730);
 }
 
-.travel .sun.moon {
-  background-color: #000000af;
-  border: none;
-  border-radius: 100%;
-}
-
 .travel .sun .sunImage {
   filter: invert(50%) sepia(90%) saturate(1200%) hue-rotate(15deg)
     brightness(120%) contrast(120%);
 }
 
 .travel .sun .moonImage {
-  height: calc(40 * 100vh / 730);
-  width: calc(40 * 100vh / 730);
+  height: calc(85 * 100vh / 730);
+  width: calc(85 * 100vh / 730);
 }
 
 .riseTime,
@@ -850,7 +865,7 @@ header {
   justify-content: center;
   align-items: center;
   gap: calc(50 * 100vw / 1536);
-  min-width: 100%;
+  /* min-width: 100%; */
 }
 
 .date {
