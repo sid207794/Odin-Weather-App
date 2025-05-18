@@ -1,5 +1,6 @@
 import { cityData, getWeatherApi } from './logic';
-import sun from './images/sun.svg';
+import sun from './images/day.svg';
+import night from './images/night.svg';
 import sunset from './images/sunset.svg';
 import sunrise from './images/sunrise.svg';
 import drop from './images/water.svg';
@@ -23,6 +24,7 @@ const navigationBar = (function () {
     const searchCityButton = document.querySelector(
       '.navRight .searchCityButton'
     );
+    const bodyError = document.querySelector('.bodyError');
 
     searchCityButton.addEventListener('click', (e) => {
       e.preventDefault();
@@ -33,9 +35,11 @@ const navigationBar = (function () {
 
       if (inputCity) {
         refresh.classList.add('on');
+        bodyError.classList.remove('display');
         getWeatherApi(inputCity).then(() => {
           leftSide();
           searchCity.value = '';
+          refresh.click;
           setTimeout(() => {
             refresh.classList.remove('on');
           }, 500);
@@ -286,7 +290,7 @@ const sunriseStatus = function () {
       setTime.textContent = sunriseTime;
       sunDiv.classList.add('moon');
       sunImg.classList.add('moonImage');
-      sunImg.src = data4Img.src;
+      sunImg.src = night;
       riseText.textContent = 'Sunset';
       setText.textContent = 'Sunrise';
       riseImage.innerHTML = `<img src=${sunset} alt="sunset"></img>`;
@@ -571,7 +575,9 @@ const forecast = function () {
 
 const refresh = (function () {
   const refreshIcon = document.querySelector('.refresh');
-  const searchCityButton = document.querySelector('.searchCityButton');
+  const searchCityButton = document.querySelector(
+    '.navRight .searchCityButton'
+  );
   const searchCity = document.querySelector('#searchCity');
 
   refreshIcon.addEventListener('click', () => {
