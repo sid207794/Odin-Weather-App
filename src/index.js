@@ -4,7 +4,7 @@ import './dom.js';
 import * as THREE from 'three';
 import BIRDS from 'vanta/src/vanta.birds';
 
-let vantaEffect;
+export let vantaEffect;
 
 vantaEffect = BIRDS({
   el: '.loadPage',
@@ -64,10 +64,7 @@ const startapp = (function () {
             const lat = position.coords.latitude;
             const lon = position.coords.longitude;
             coordinates = `${lat},${lon}`;
-            getWeatherApi(coordinates).then(() => {
-              const address = cityData[0].resolvedAddress;
-              locationBox.value = address;
-            });
+            locationBox.value = coordinates;
           },
           (error) => {
             errorDisplay.textContent = 'GPS Unavailable';
