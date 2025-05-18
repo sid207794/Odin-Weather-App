@@ -39,8 +39,8 @@ const navigationBar = (function () {
         getWeatherApi(inputCity).then(() => {
           leftSide();
           searchCity.value = '';
-          refresh.click;
           setTimeout(() => {
+            // refresh.click;
             refresh.classList.remove('on');
           }, 500);
         });
