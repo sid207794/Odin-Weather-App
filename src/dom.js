@@ -4,6 +4,11 @@ import night from './images/night.svg';
 import sunset from './images/sunset.svg';
 import sunrise from './images/sunrise.svg';
 import drop from './images/water.svg';
+import rainBgVideo from './images/videos/aleksei-sabulevskii-tl8GM4dWXnM-unsplash.mp4';
+import rainBgImg from './images/aleksei-sabulevskii-tl8GM4dWXnM-unsplash.jpg';
+import nightBgVideo from './images/videos/falling_stars.webm';
+import nightBgImg from './images/annie-spratt-2W3fnsuJHLQ-unsplash.jpg';
+import dayBgImg from './images/pexels-francesco-ungaro-281260.jpg';
 
 const weatherIcons = require.context('./images/weatherIcons', false, /\.svg$/);
 const iconObject = {};
@@ -110,6 +115,7 @@ const navigationBar = (function () {
       prediction();
       warningIndicator();
       forecast();
+      weatherBackground();
     }
   };
 
@@ -588,3 +594,45 @@ const refresh = (function () {
     }
   });
 })();
+
+const weatherBackground = function () {
+  const conditions = cityData[0].currentConditions.icon;
+  const body = document.querySelector('body');
+  const wallpaper = document.querySelector('#wallpaper');
+  const bgVideo = document.querySelector('#bg-video');
+  const time = parseInt(cityData[0].currentConditions.datetime.slice(0, 2));
+  const sunriseHour = parseInt(
+    cityData[0].currentConditions.sunrise.slice(0, 2)
+  );
+  const sunsetHour = parseInt(cityData[0].currentConditions.sunset.slice(0, 2));
+
+  if (conditions.includes('rain') || conditions.includes('showers')) {
+    body.style.background = `url("${rainBgImg}")`;
+    body.style.backgroundSize = 'cover';
+    body.style.backgroundPosition = 'center';
+    body.style.backgroundRepeat = 'no-repeat';
+    body.style.backgroundAttachment = 'fixed';
+    wallpaper.style.backgroundImage = 'none';
+    bgVideo.src = rainBgVideo;
+    bgVideo.load();
+  } else if (conditions.includes('night')) {
+    body.style.background = `url("${nightBgImg}")`;
+    body.style.backgroundSize = 'cover';
+    body.style.backgroundPosition = 'center';
+    body.style.backgroundRepeat = 'no-repeat';
+    body.style.backgroundAttachment = 'fixed';
+    wallpaper.style.backgroundImage = 'none';
+    bgVideo.src = nightBgVideo;
+    bgVideo.load();
+  } else {
+    body.style.background = `url("${dayBgImg}")`;
+    body.style.backgroundSize = 'cover';
+    body.style.backgroundPosition = 'center';
+    body.style.backgroundRepeat = 'no-repeat';
+    body.style.backgroundAttachment = 'fixed';
+    wallpaper.style.backgroundImage = 'none';
+    bgVideo.pause();
+    bgVideo.removeAttribute('src');
+    bgVideo.load();
+  }
+};
