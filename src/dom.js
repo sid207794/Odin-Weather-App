@@ -8,7 +8,12 @@ import rainBgVideo from './images/videos/aleksei-sabulevskii-tl8GM4dWXnM-unsplas
 import rainBgImg from './images/aleksei-sabulevskii-tl8GM4dWXnM-unsplash.jpg';
 import nightBgVideo from './images/videos/falling_stars.webm';
 import nightBgImg from './images/annie-spratt-2W3fnsuJHLQ-unsplash.jpg';
+import dayBgVideo from './images/videos/sunny_day.mp4';
 import dayBgImg from './images/pexels-francesco-ungaro-281260.jpg';
+import * as THREE from 'three';
+import BIRDS from 'vanta/src/vanta.birds';
+
+let vantaEffectDawn;
 
 const weatherIcons = require.context('./images/weatherIcons', false, /\.svg$/);
 const iconObject = {};
@@ -129,6 +134,11 @@ const navigationBar = (function () {
 
 const locationConditions = function () {
   const moreConditions = document.querySelector('.moreConditions');
+  moreConditions.classList.remove('scale');
+  setTimeout(() => {
+    moreConditions.classList.add('scale');
+  }, 300);
+
   const weatherStatus = cityData[0].currentConditions.icon;
   const weatherStatusImg = weatherStatus + '.svg';
   let conditionsArray = [
@@ -177,27 +187,42 @@ const locationConditions = function () {
     const divImg = document.createElement('div');
     const img = document.createElement('img');
     const text = document.createElement('span');
+    const dataWrapper = document.createElement('div');
     const data = document.createElement('span');
 
     div.classList.add(`data${i}`);
     div.classList.add('conditionData');
     divImg.classList.add('dataImg');
     text.classList.add('imgText');
+    dataWrapper.classList.add('dataWrapper');
     data.classList.add('textData');
 
     moreConditions.appendChild(div);
     div.appendChild(divImg);
     divImg.appendChild(img);
     div.appendChild(text);
-    div.appendChild(data);
+    div.appendChild(dataWrapper);
+    dataWrapper.appendChild(data);
   }
 
   const data0Img = document.querySelector(`.data0 img`);
   const data0Text = document.querySelector(`.data0 .imgText`);
+  const data0DataWrapper = document.querySelector(`.data0 .dataWrapper`);
   const data0TextData = document.querySelector(`.data0 .textData`);
   data0Img.src = iconObject[weatherStatusImg];
   data0Text.textContent = 'Condition';
   data0TextData.textContent = cityData[0].currentConditions.conditions;
+
+  function checkOverflowAndAnimate() {
+    if (data0TextData.scrollWidth > data0DataWrapper.clientWidth) {
+      data0DataWrapper.classList.add('animate');
+    } else {
+      data0DataWrapper.classList.remove('animate');
+    }
+  }
+
+  checkOverflowAndAnimate();
+  window.addEventListener('resize', checkOverflowAndAnimate);
 
   for (let i = 1; i < 12; i++) {
     const dataImg = document.querySelector(`.data${i} img`);
@@ -596,15 +621,18 @@ const refresh = (function () {
 })();
 
 const weatherBackground = function () {
+  const vantaWallpaper = document.querySelector('vantaWallpaper');
   const conditions = cityData[0].currentConditions.icon;
   const body = document.querySelector('body');
-  const wallpaper = document.querySelector('#wallpaper');
   const bgVideo = document.querySelector('#bg-video');
   const time = parseInt(cityData[0].currentConditions.datetime.slice(0, 2));
   const sunriseHour = parseInt(
     cityData[0].currentConditions.sunrise.slice(0, 2)
   );
   const sunsetHour = parseInt(cityData[0].currentConditions.sunset.slice(0, 2));
+  if (vantaEffectDawn) {
+    vantaEffectDawn.destroy();
+  }
 
   if (conditions.includes('rain') || conditions.includes('showers')) {
     body.style.background = `url("${rainBgImg}")`;
@@ -612,25 +640,55 @@ const weatherBackground = function () {
     body.style.backgroundPosition = 'center';
     body.style.backgroundRepeat = 'no-repeat';
     body.style.backgroundAttachment = 'fixed';
-    wallpaper.style.backgroundImage = 'none';
     bgVideo.src = rainBgVideo;
     bgVideo.load();
+    bgVideo.classList.add('show');
   } else if (conditions.includes('night')) {
+    bgVideo.classList.remove('show');
     body.style.background = `url("${nightBgImg}")`;
     body.style.backgroundSize = 'cover';
     body.style.backgroundPosition = 'center';
     body.style.backgroundRepeat = 'no-repeat';
     body.style.backgroundAttachment = 'fixed';
-    wallpaper.style.backgroundImage = 'none';
     bgVideo.src = nightBgVideo;
     bgVideo.load();
-  } else {
-    body.style.background = `url("${dayBgImg}")`;
+    bgVideo.classList.add('show');
+  } else if (
+    (time >= sunriseHour && time <= sunriseHour + 2) ||
+    (time <= sunsetHour && time >= sunsetHour - 2)
+  ) {
+    bgVideo.classList.remove('show');
+    body.style.background = `linear-gradient(to bottom,rgba(131, 58, 180, 1) 0%, rgba(253, 29, 29, 1) 50%, rgba(252, 176, 69, 1) 100%)`;
     body.style.backgroundSize = 'cover';
     body.style.backgroundPosition = 'center';
     body.style.backgroundRepeat = 'no-repeat';
     body.style.backgroundAttachment = 'fixed';
-    wallpaper.style.backgroundImage = 'none';
+    bgVideo.pause();
+    bgVideo.removeAttribute('src');
+    bgVideo.load();
+
+    vantaEffectDawn = BIRDS({
+      el: '.vantaWallpaper',
+      THREE: THREE,
+      mouseControls: false,
+      touchControls: false,
+      gyroControls: false,
+      minHeight: 200.0,
+      minWidth: 200.0,
+      scale: 1.0,
+      scaleMobile: 1.0,
+      backgroundAlpha: 0.0,
+      quantity: 2.0,
+      color1: 0x000000,
+      color2: 0x111111,
+    });
+  } else {
+    bgVideo.classList.remove('show');
+    body.style.background = `linear-gradient(to top, #62cff4, #2c67f2)`;
+    body.style.backgroundSize = 'cover';
+    body.style.backgroundPosition = 'center';
+    body.style.backgroundRepeat = 'no-repeat';
+    body.style.backgroundAttachment = 'fixed';
     bgVideo.pause();
     bgVideo.removeAttribute('src');
     bgVideo.load();
