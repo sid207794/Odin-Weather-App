@@ -742,11 +742,12 @@ header {
 .lineRight hr {
   flex: 1;
   height: calc(8 * 100vh / 730);
-  width: calc(120 * 100vw / 1536);
+  /* width: calc(120 * 100vw / 1536); */
   margin: 0;
   border-radius: calc(15 * 100vmin / 730);
   border: solid calc(2 * 100vmin / 730) transparent;
   box-sizing: border-box;
+  transition: width 0.5s ease;
 }
 
 .lineLeft hr.morning {
