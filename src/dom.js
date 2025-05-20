@@ -618,6 +618,10 @@ const refresh = (function () {
       searchCityButton.click();
     }
   });
+
+  setInterval(() => {
+    refreshIcon.click();
+  }, 1320000);
 })();
 
 const weatherBackground = function () {
