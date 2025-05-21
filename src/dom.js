@@ -121,6 +121,7 @@ const navigationBar = (function () {
       warningIndicator();
       forecast();
       weatherBackground();
+      airQualityIndex();
     }
   };
 
@@ -697,4 +698,80 @@ const weatherBackground = function () {
     bgVideo.removeAttribute('src');
     bgVideo.load();
   }
+};
+
+const airQualityIndex = function () {
+  const levelInWord = document.querySelector('.levelInWord');
+  const levelInNumber = document.querySelector('.levelInNumber');
+  const levelDetail = document.querySelector('.levelDetail span');
+  const levelDetailBox = document.querySelector('.levelDetail');
+  const levelIndicator = document.querySelector('.levelIndicator div');
+  const leftAqiHr = document.querySelector('.leftAqiHr hr');
+  const rightAqiHr = document.querySelector('.rightAqiHr hr');
+
+  const aqi = cityData[0].currentConditions.aqius;
+  const aqiDiff = 264.024 / 500;
+
+  leftAqiHr.classList.remove('good');
+  rightAqiHr.classList.remove('good');
+  leftAqiHr.classList.remove('moderate');
+  rightAqiHr.classList.remove('moderate');
+  leftAqiHr.classList.remove('bad');
+  rightAqiHr.classList.remove('bad');
+  leftAqiHr.classList.remove('unhealthy');
+  rightAqiHr.classList.remove('unhealthy');
+  leftAqiHr.classList.remove('veryUnhealthy');
+  rightAqiHr.classList.remove('veryUnhealthy');
+  leftAqiHr.classList.remove('hazardous');
+  rightAqiHr.classList.remove('hazardous');
+  levelIndicator.classList = '';
+
+  levelInNumber.textContent = aqi;
+
+  function AqiHrWidth(aqiValue, levelOfConcern, levelText) {
+    rightAqiHr.style.width = `calc((264.024 - ${aqiDiff * aqiValue}) * 100vw / 1536)`;
+    leftAqiHr.style.width = `calc((${aqiDiff * aqiValue}) * 100vw / 1536)`;
+    leftAqiHr.classList.add(levelOfConcern);
+    rightAqiHr.classList.add(levelOfConcern);
+    levelIndicator.classList.add(levelOfConcern);
+    levelInWord.textContent = levelText;
+  }
+
+  if (aqi >= 0 && aqi <= 50) {
+    AqiHrWidth(aqi, 'good', 'Good');
+    levelDetail.textContent =
+      'Air quality is satisfactory, and air pollution poses little or no risk.';
+  } else if (aqi >= 51 && aqi <= 100) {
+    AqiHrWidth(aqi, 'moderate', 'Moderate');
+    levelDetail.textContent =
+      'Air quality is acceptable. However, sensitive people should reduce outdoor activity.';
+  } else if (aqi >= 101 && aqi <= 150) {
+    AqiHrWidth(aqi, 'bad', 'Satisfactory');
+    levelDetail.textContent =
+      'Members of sensitive groups may experience health effects. The general public is less likely to be affected.';
+  } else if (aqi >= 151 && aqi <= 200) {
+    AqiHrWidth(aqi, 'unhealthy', 'Unhealthy');
+    levelDetail.textContent =
+      'Some members of the general public may experience health effects; members of sensitive groups may experience more serious health effects.';
+  } else if (aqi >= 201 && aqi <= 300) {
+    AqiHrWidth(aqi, 'veryUnhealthy', 'Very Unhealthy');
+    levelDetail.textContent =
+      'Health alert: The risk of health effects is increased for everyone.';
+  } else if (aqi >= 301 && aqi <= 500) {
+    AqiHrWidth(aqi, 'hazardous', 'Hazardous');
+    levelDetail.textContent =
+      'Health warning of emergency conditions: everyone is more likely to be affected.';
+  }
+
+  function checkOverflowAndAnimate() {
+    if (levelDetail.scrollHeight > levelDetailBox.scrollHeight) {
+      levelDetailBox.classList.add('animate');
+    } else {
+      levelDetailBox.classList.remove('animate');
+    }
+  }
+
+  window.removeEventListener('resize', checkOverflowAndAnimate);
+  checkOverflowAndAnimate();
+  window.addEventListener('resize', checkOverflowAndAnimate);
 };
