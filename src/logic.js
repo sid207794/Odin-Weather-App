@@ -7,7 +7,7 @@ export async function getWeatherApi(city) {
     cityData.length = 0;
     const cityName = city.trim();
     const resolve = await fetch(
-      `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${cityName}?unitGroup=metric&key=TJKLDPKEX986CRYB7PZ6PBN8K&contentType=json`,
+      `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${cityName}?unitGroup=metric&key=TJKLDPKEX986CRYB7PZ6PBN8K&contentType=json&elements=%2Baqius`,
       { mode: 'cors' }
     );
     const resolveReference = await resolve.json();
@@ -27,9 +27,11 @@ export async function getWeatherApi(city) {
   } catch (error) {
     const errorDisplay = document.querySelector('.loadPage .error');
     const bodyError = document.querySelector('.bodyError');
+    const loadingIcon = document.querySelector('.loadingIcon');
 
     bodyError.classList.add('display');
     errorDisplay.classList.remove('loading');
+    loadingIcon.classList.remove('loading');
     errorDisplay.classList.add('display');
     errorDisplay.textContent = 'We were unable to find this place!';
     bodyError.textContent = 'We were unable to find this place!';
