@@ -54,6 +54,7 @@ const startapp = (function () {
     );
     const searchCity = document.querySelector('#searchCity');
     const errorDisplay = document.querySelector('.loadPage .error');
+    const loadingIcon = document.querySelector('.loadingIcon');
 
     let coordinates = null;
 
@@ -84,6 +85,7 @@ const startapp = (function () {
         errorDisplay.textContent = 'Fetching meteorological data...';
         errorDisplay.classList.remove('display');
         errorDisplay.classList.add('loading');
+        loadingIcon.classList.add('loading');
       }
     });
   })();
