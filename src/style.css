@@ -144,7 +144,6 @@ body::-webkit-scrollbar {
   transition:
     opacity 0.2s ease,
     transform 0.2s ease;
-  margin-bottom: 12vh;
   margin-top: 3vh;
 }
 
@@ -198,6 +197,28 @@ body::-webkit-scrollbar {
 
 #locationBox::placeholder {
   font-weight: normal;
+}
+
+.loadingIcon {
+  height: calc(25 * 100vh / 730);
+  width: calc(25 * 100vh / 730);
+  background-color: transparent;
+  border-left: solid calc(4 * 100vmin / 730) aqua;
+  border-right: solid calc(4 * 100vmin / 730) #ffffff25;
+  border-top: solid calc(4 * 100vmin / 730) #ffffff25;
+  border-bottom: solid calc(4 * 100vmin / 730) #ffffff25;
+  border-radius: 100%;
+  box-sizing: border-box;
+  margin-top: 0;
+  margin-bottom: 3vh;
+  margin-top: 2vh;
+  animation: spin 1.5s linear infinite reverse;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.loadingIcon.loading {
+  opacity: 1;
 }
 
 .content {
@@ -310,6 +331,7 @@ header {
 .navRight {
   gap: calc(8 * 100vw / 1536);
   padding-right: calc(8 * 100vw / 1536);
+  padding-left: calc(8 * 100vw / 1536);
   user-select: none;
 }
 
@@ -640,7 +662,7 @@ header {
 .conditionData:nth-child(5) .dataImg img {
   height: calc(65 * 100vh / 730);
   width: calc(65 * 100vh / 730);
-  filter: invert(100%) blur(1.5px) brightness(2) drop-shadow(0 0 5px white);
+  filter: invert(100%) blur(1px) brightness(2) drop-shadow(0 0 5px white);
 }
 
 .conditionData .imgText {
@@ -654,7 +676,7 @@ header {
   text-align: center;
 }
 
-.sunStatus,
+.visualDetailBox,
 .hourlyDataToday,
 .upcomingForecast {
   display: flex;
@@ -663,18 +685,186 @@ header {
   margin-bottom: calc(28 * 100vh / 730);
 }
 
-.sunStatusCover {
+.visualDetailBox {
+  max-width: calc(970.55 * 100vw / 1536);
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  justify-content: space-around;
+}
+
+.aqi {
+  background: rgba(0, 0, 0, 0.5) !important;
+  backdrop-filter: saturate(180%) blur(10px) !important;
+  user-select: none;
+}
+
+.aqi .title {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.aqi .titleText {
+  color: rgb(205, 205, 205);
+  font-size: calc(12 * 100vmin / 730);
+  text-align: left;
+}
+
+.aqi .titleHr hr {
+  flex: 1;
+  border-color: rgb(205, 205, 205);
+  margin: calc(3 * 100vw / 1536) auto;
+}
+
+.aqi .levelOfConcern {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: calc(5 * 100vw / 1536);
+  font-weight: bold;
+  color: white;
+  font-size: calc(18 * 100vmin / 730);
+}
+
+.aqi .levelDetail {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(30.4 * 100vh / 730);
+  overflow: hidden;
+  position: relative;
+}
+
+.aqi .levelDetail span {
+  color: rgb(205, 205, 205);
+  font-size: calc(13 * 100vmin / 730);
+}
+
+.aqi .levelDetail.animate span {
+  animation: scroll-up 4s linear infinite;
+}
+
+@keyframes scroll-up {
+  0% {
+    transform: translateY(75%);
+  }
+  100% {
+    transform: translateY(-80%);
+  }
+}
+
+.qualityScale {
+  flex: 1;
+}
+
+.leftAqiHr hr,
+.rightAqiHr hr {
+  border: none !important;
+}
+
+.levelIndicator {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(10 * 100vh / 730);
+  width: calc(10 * 100vh / 730);
+}
+
+.levelIndicator div {
+  background-color: red;
+  border: none;
+  border-radius: 100%;
+  height: calc(10 * 100vh / 730);
+  width: calc(10 * 100vh / 730);
+}
+
+.leftAqiHr hr.good {
+  background: linear-gradient(to right, #00ff00);
+}
+
+.leftAqiHr hr.moderate {
+  background: linear-gradient(to right, #00ff00, yellow);
+}
+
+.leftAqiHr hr.bad {
+  background: linear-gradient(to right, #00ff00, yellow, orange);
+}
+
+.leftAqiHr hr.unhealthy {
+  background: linear-gradient(to right, #00ff00, yellow, orange, red);
+}
+
+.leftAqiHr hr.veryUnhealthy {
+  background: linear-gradient(to right, #00ff00, yellow, orange, red, #bf40bf);
+}
+
+.leftAqiHr hr.hazardous {
+  background: linear-gradient(to right, #00ff00, yellow, orange, red, #bf40bf);
+}
+
+.rightAqiHr hr.good {
+  background: linear-gradient(to right, yellow, orange, red, #bf40bf, #800022);
+}
+
+.rightAqiHr hr.moderate {
+  background: linear-gradient(to right, orange, red, #bf40bf, #800022);
+}
+
+.rightAqiHr hr.bad {
+  background: linear-gradient(to right, orange, red, #bf40bf, #800022);
+}
+
+.rightAqiHr hr.unhealthy {
+  background: linear-gradient(to right, red, #bf40bf, #800022);
+}
+
+.rightAqiHr hr.veryUnhealthy {
+  background: linear-gradient(to right, #bf40bf, #800022);
+}
+
+.rightAqiHr hr.hazardous {
+  background: linear-gradient(to right, #800022);
+}
+
+.levelIndicator div.good {
+  background: linear-gradient(to right, #00ff00, yellow);
+}
+
+.levelIndicator div.moderate {
+  background: linear-gradient(to right, yellow, orange);
+}
+
+.levelIndicator div.bad {
+  background: linear-gradient(to right, orange, red);
+}
+
+.levelIndicator div.unhealthy {
+  background: linear-gradient(to right, red);
+}
+
+.levelIndicator div.veryUnhealthy {
+  background: linear-gradient(to right, #bf40bf);
+}
+
+.levelIndicator div.hazardous {
+  background: linear-gradient(to right, #bf40bf, #800022);
+}
+
+.sunStatusCover,
+.aqi {
   display: flex;
   flex-direction: column;
   gap: calc(4 * 100vh / 730);
   /* background-color: #16161650; */
-  background: linear-gradient(90deg, #ff000075, #0000ff75);
+  background: linear-gradient(90deg, #ff0000ab, #0000ffab);
   backdrop-filter: blur(10px);
   border-radius: calc(15 * 100vmin / 730);
   padding: calc(10 * 100vmin / 730);
   padding-left: calc(25 * 100vw / 1536);
   padding-right: calc(25 * 100vw / 1536);
-  height: fit-content;
+  height: calc(112.325 * 100vh / 730);
   max-width: calc(280 * 100vw / 1536);
   user-select: none;
 }
@@ -726,7 +916,8 @@ header {
   font-size: calc(13 * 100vmin / 730);
 }
 
-.travel {
+.travel,
+.qualityScale {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -734,12 +925,16 @@ header {
 }
 
 .lineLeft,
-.lineRight {
+.lineRight,
+.leftAqiHr,
+.rightAqiHr {
   flex: 1;
 }
 
 .lineLeft hr,
-.lineRight hr {
+.lineRight hr,
+.leftAqiHr hr,
+.rightAqiHr hr {
   flex: 1;
   height: calc(8 * 100vh / 730);
   /* width: calc(120 * 100vw / 1536); */
